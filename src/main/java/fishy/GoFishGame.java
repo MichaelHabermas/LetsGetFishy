@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 public class GoFishGame extends JPanel {
-    private Deck deck;
+    private final Deck deck;
     private final Player player;
     private final Player computer;
-    private Card selectedCard;
     private boolean playerTurn;
 
     public GoFishGame() {
@@ -38,15 +37,16 @@ public class GoFishGame extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCards(g, player.getHand(), 50, 400, false);
-        drawCards(g, computer.getHand(), 50, 50 ,true);
+        drawCards(g, player.getHand(), 400, false);
+        drawCards(g, computer.getHand(), 50 ,true);
 
         g.setColor(Color.WHITE);
         g.drawString("Player Score: " + player.getScore(), 50, 550);
         g.drawString("Computer Score: " + computer.getScore(), 50, 30);
     }
 
-    private void drawCards(Graphics g, List<Card> hand, int x, int y, Boolean isOpponent) {
+    private void drawCards(Graphics g, List<Card> hand, int y, Boolean isOpponent) {
+        int x = 50;
         for (Card card : hand) {
             g.drawImage(isOpponent ? card.getBack() : card.getCardFront(), x, y, null);
             x += 50;
@@ -61,17 +61,14 @@ public class GoFishGame extends JPanel {
             int mouseX = e.getX();
             int mouseY = e.getY();
 
-
             List<Card> playerHand = player.getHand();
             int x = 50;
             int y = 400;
 
-            for (int i = 0; i < playerHand.size(); i++) {
+            for (Card card : playerHand) {
                 if (mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + 48) {
-                    selectedCard = playerHand.get(i);
-                    System.out.println("Player selected: " + selectedCard.getRank() + " of " + selectedCard.getSuit());
-
-                    playerAsksForCard(selectedCard.getRank());
+                    System.out.println("Player selected: " + card.getRank() + " of " + card.getSuit());
+                    playerAsksForCard(card.getRank());
 
                     break;
                 }

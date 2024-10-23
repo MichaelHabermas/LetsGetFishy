@@ -1,12 +1,11 @@
 package fishy;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Player {
-    private String name;
-    private List<Card> hand;
+    private final String name;
+    private final List<Card> hand;
     private int score;
 
     public Player(String name) {
@@ -35,7 +34,7 @@ public class Player {
         hand.removeIf(card -> card.getRank().equals(rank));
     }
 
-    public boolean checkAndLayDownSet(String rank) {
+    public void checkAndLayDownSet(String rank) {
         int count = 0;
         for (Card card : hand) {
             if (card.getRank().equals(rank)) {
@@ -47,18 +46,6 @@ public class Player {
             removeCardsOfRank(rank);
             score++;
             System.out.println(name + " has completed a set of " + rank + "!");
-            return true;
         }
-
-        return false;
-    }
-
-    public boolean hasCardsOfRank(String rank) {
-        for (Card card : hand) {
-            if (card.getRank().equals(rank)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
