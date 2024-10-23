@@ -1,21 +1,28 @@
 package fishy;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Card {
-    private String rank;
-    private String suit;
-    private BufferedImage image;
+    private final String rank;
+    private final String suit;
+    private final BufferedImage cardFront;
+    private final BufferedImage cardBack;
 
-    public Card(String rank, String suit, BufferedImage image) {
+    public Card(String rank, String suit, BufferedImage cardFront, BufferedImage cardBack) {
         this.rank = rank;
         this.suit = suit;
-        this.image = image;
+        this.cardFront = cardFront;
+        this.cardBack = cardBack;
     }
 
-    public BufferedImage getImage() {
-        return image;
+    public BufferedImage getCardFront() {
+        return cardFront;
     }
+
+    public BufferedImage getBack() { return cardBack; }
 
     public String getRank() {
         return rank;

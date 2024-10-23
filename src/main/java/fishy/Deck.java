@@ -9,12 +9,27 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    private List<Card> cards;
+    private final List<Card> cards;
 
     public Deck() {
         cards = new ArrayList<>();
         String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
         String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        BufferedImage cardBack = null;
+
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("cards/card_back.png")) {
+            if (is != null) {
+                cardBack = ImageIO.read(is);
+            } else {
+                System.err.println("Image not found: Card Back");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (cardBack == null) {
+            throw new RuntimeException("Card back not initialized");
+        }
 
         for (String suit : suits) {
             for (String rank : ranks) {
@@ -23,7 +38,7 @@ public class Deck {
                 try (InputStream is = getClass().getClassLoader().getResourceAsStream(fileName)) {
                     if (is != null) {
                         BufferedImage image = ImageIO.read(is);
-                        cards.add(new Card(rank, suit, image));
+                        cards.add(new Card(rank, suit, image, cardBack));
                     } else {
                         System.err.println("Image not found: " + fileName);
                     }

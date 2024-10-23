@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class GoFishGame extends JPanel {
     private Deck deck;
-    private Player player;
-    private Player computer;
+    private final Player player;
+    private final Player computer;
     private Card selectedCard;
     private boolean playerTurn;
 
@@ -21,7 +21,7 @@ public class GoFishGame extends JPanel {
         initializeGame();
 
         setPreferredSize(new Dimension(800, 600));
-        setBackground(Color.GREEN);
+        setBackground(Color.BLUE);
 
         playerTurn = true;
 
@@ -38,17 +38,17 @@ public class GoFishGame extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCards(g, player.getHand(), 50, 400);
-        drawCards(g, computer.getHand(), 50, 50);
+        drawCards(g, player.getHand(), 50, 400, false);
+        drawCards(g, computer.getHand(), 50, 50 ,true);
 
         g.setColor(Color.WHITE);
         g.drawString("Player Score: " + player.getScore(), 50, 550);
         g.drawString("Computer Score: " + computer.getScore(), 50, 30);
     }
 
-    private void drawCards(Graphics g, List<Card> hand, int x, int y) {
+    private void drawCards(Graphics g, List<Card> hand, int x, int y, Boolean isOpponent) {
         for (Card card : hand) {
-            g.drawImage(card.getImage(), x, y, null);
+            g.drawImage(isOpponent ? card.getBack() : card.getCardFront(), x, y, null);
             x += 50;
         }
     }
@@ -70,7 +70,6 @@ public class GoFishGame extends JPanel {
                 if (mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + 48) {
                     selectedCard = playerHand.get(i);
                     System.out.println("Player selected: " + selectedCard.getRank() + " of " + selectedCard.getSuit());
-
 
                     playerAsksForCard(selectedCard.getRank());
 
@@ -157,7 +156,7 @@ public class GoFishGame extends JPanel {
     }
 
     private void checkForWinCondition() {
-        if (deck.isEmpty() || player.getHand().isEmpty() || computer.getHand().isEmpty()) {
+        if (deck.isEmpty() && (player.getHand().isEmpty() || computer.getHand().isEmpty())) {
             String winner;
             if (player.getScore() > computer.getScore()) {
                 winner = "Player wins!";

@@ -32,13 +32,7 @@ public class Player {
     }
 
     public void removeCardsOfRank(String rank) {
-        Iterator<Card> iterator = hand.iterator();
-        while (iterator.hasNext()) {
-            Card card = iterator.next();
-            if (card.getRank().equals(rank)) {
-                iterator.remove();
-            }
-        }
+        hand.removeIf(card -> card.getRank().equals(rank));
     }
 
     public boolean checkAndLayDownSet(String rank) {
